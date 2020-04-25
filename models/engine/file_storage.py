@@ -37,9 +37,6 @@ class FileStorage:
         else:
             return self.__objects
 
-    def close(self):
-        self.reload()
-
     def new(self, obj):
         """sets __object to given obj
         Args:
@@ -75,3 +72,7 @@ class FileStorage:
             to_del = "{}.{}".format(type(obj).__name__, obj.id)
             if to_del in self.__objects:
                 del self.__objects[to_del]
+
+    #AirBnB clone - Web framework
+    def close(self):
+        self.reload()

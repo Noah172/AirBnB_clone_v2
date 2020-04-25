@@ -71,5 +71,7 @@ class DBStorage:
             bind=self.__engine, expire_on_commit=False))
         self.__session = Session()
 
+    #Air BnB Clone - web framework
     def close(self):
+        """ close the session """
         self.__session.close()
