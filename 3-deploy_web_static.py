@@ -11,20 +11,22 @@ from datetime import datetime
 
 env.hosts = ['35.231.14.240', '34.229.216.161']
 
-now = datetime.utcnow()
-file_ = "versions/web_static_{}{}{}{}{}{}.tgz".format(now.year,
-                                                      now.month,
-                                                      now.day,
-                                                      now.hour,
-                                                      now.minute,
-                                                      now.second)
 
-if not path.isdir("versions"):
-    if local("mkdir -p versions").failed:
+def do_pack():
+    now = datetime.utcnow()
+    file_ = "versions/web_static_{}{}{}{}{}{}.tgz".format(now.year,
+                                                          now.month,
+                                                          now.day,
+                                                          now.hour,
+                                                          now.minute,
+                                                          now.second)
+
+    if not path.isdir("versions"):
+        if local("mkdir -p versions").failed:
+            return None
+    if local('tar -cvzf {} web_static'.format(file_)).failed:
         return None
-if local('tar -cvzf {} web_static'.format(file_)).failed:
-    return None
-return file_
+    return file_
 
 
 def do_deploy(archive_path):
