@@ -7,25 +7,24 @@ archive to the web servers
 from fabric.api import *
 from os import path
 from datetime import datetime
-from shlex import split
 
 
 env.hosts = ['35.231.14.240', '34.229.216.161']
 
+now = datetime.utcnow()
+file_ = "versions/web_static_{}{}{}{}{}{}.tgz".format(now.year,
+                                                      now.month,
+                                                      now.day,
+                                                      now.hour,
+                                                      now.minute,
+                                                      now.second)
 
-    now = datetime.utcnow()
-    file_ = "versions/web_static_{}{}{}{}{}{}.tgz".format(now.year,
-            now.month,                                                                                       now.day,
-            now.hour,
-            now.minute,
-            now.second)
-
-    if not path.isdir("versions"):
-        if local("mkdir -p versions").failed:
-            return None
-    if local('tar -cvzf {} web_static'.format(file_)).failed:
+if not path.isdir("versions"):
+    if local("mkdir -p versions").failed:
         return None
-    return file_
+if local('tar -cvzf {} web_static'.format(file_)).failed:
+    return None
+return file_
 
 
 def do_deploy(archive_path):
